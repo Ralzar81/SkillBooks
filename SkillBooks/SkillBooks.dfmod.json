@@ -1,0 +1,25 @@
+{
+    "ModTitle": "Skill Books",
+    "ModVersion": "1.0.0",
+    "ModAuthor": "Ralzar",
+    "ContactInfo": "forums.dfworkshop.net",
+    "DFUnity_Version": "0.12.3",
+    "ModDescription": "Adds books the you can use to train skills",
+    "GUID": "c92d5264-c384-4fbc-886b-bbc695510eaa",
+    "Files": [
+        "Assets/Game/Mods/SkillBooks/SkillBooks.dfmod.json",
+        "Assets/Game/Mods/SkillBooks/modsettings.json",
+        "Assets/Game/Mods/SkillBooks/SkillBooks.cs",
+        "Assets/Game/Mods/SkillBooks/ItemTemplates.json",
+        "Assets/Game/Mods/SkillBooks/BasicBookItem.cs",
+        "Assets/Game/Mods/SkillBooks/AdvancedBookItem.cs",
+        "Assets/Game/Mods/SkillBooks/BasicMagicBookItem.cs",
+        "Assets/Game/Mods/SkillBooks/AdvancedMagicBookItem.cs",
+        "Assets/Game/Mods/SkillBooks/Textures/551_0-0.png",
+        "Assets/Game/Mods/SkillBooks/Textures/551_0-0_Red.PNG",
+        "Assets/Game/Mods/SkillBooks/Textures/552_0-0.PNG",
+        "Assets/Game/Mods/SkillBooks/Textures/552_0-0_Red.PNG",
+        "Assets/Game/Mods/SkillBooks/Textures/553_0-0.PNG",
+        "Assets/Game/Mods/SkillBooks/Textures/554_0-0.PNG"
+    ]
+}
