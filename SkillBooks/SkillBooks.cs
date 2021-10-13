@@ -80,14 +80,14 @@ namespace SkillBooks
 
                 if (advancedBook)
                 {
-                    skillMax += 30;
-                    skillMin += 50;
+                    skillMax += 20;
+                    skillMin += 40;
                 }
 
                 if (playerEntity.Skills.GetLiveSkillValue(skill) < skillMax && playerEntity.Skills.GetLiveSkillValue(skill) > skillMin)
                 {
                     tooAdvanced = false;
-                    TrainSkill(skill);
+                    TrainSkill(skill, advancedBook);
                     skillsTrained.Add(DaggerfallUnity.Instance.TextProvider.GetSkillName(skill));
                 }
             }
@@ -112,7 +112,7 @@ namespace SkillBooks
                     else
                         DaggerfallUI.MessageBox("The book is so old and worn it has become unreadable.");
                 }
-                if (skillsCount == 3)
+                else if (skillsCount == 3)
                     DaggerfallUI.MessageBox("You learn more about the skills " + skillsTrained[0] + ", " + skillsTrained[1] + " and " + skillsTrained[2] + ".");
                 else if (skillsCount == 2)
                     DaggerfallUI.MessageBox("You learn more about the skills " + skillsTrained[0] + " and " + skillsTrained[1] + ".");
@@ -123,11 +123,12 @@ namespace SkillBooks
             }
         }
 
-        static void TrainSkill(DFCareer.Skills skill)
+        static void TrainSkill(DFCareer.Skills skill, bool advancedBook)
         {
             int intMod = playerEntity.Stats.LiveIntelligence / 10;
+            int bookMax = advancedBook ? 5 : 0;
             int skillAdvancementMultiplier = DaggerfallSkills.GetAdvancementMultiplier(skill);
-            short tallyAmount = (short)(UnityEngine.Random.Range(intMod - 1, intMod + 11) * skillAdvancementMultiplier);
+            short tallyAmount = (short)(UnityEngine.Random.Range(intMod - 1, intMod + bookMax) * skillAdvancementMultiplier);
             playerEntity.TallySkill(skill, tallyAmount);
         }
 
@@ -136,7 +137,7 @@ namespace SkillBooks
             List<DFCareer.Skills> list = new List<DFCareer.Skills>();
             switch (item.message)
             {
-                case 0:
+                case 236548927:
                     list.Add(DFCareer.Skills.Axe);
                     list.Add(DFCareer.Skills.BluntWeapon);
                     list.Add(DFCareer.Skills.LongBlade);
@@ -226,11 +227,16 @@ namespace SkillBooks
                     {
                         if (enemyEntity.MobileEnemy.Affinity == MobileAffinity.Human || HumanoidCheck(enemyEntity.MobileEnemy.ID))
                         {
-                            int luckRoll = UnityEngine.Random.Range(1, 20) + ((playerEntity.Stats.LiveLuck / 10) - 5);
+                            int luckRoll = UnityEngine.Random.Range(1, 30) + (playerEntity.Stats.LiveLuck / 10);
                             int index = 0;
-                            if (luckRoll > 18)
+                            bool caster = enemyEntity.MobileEnemy.ID > 127 && enemyEntity.MobileEnemy.ID < 132;
+                            if (caster)
+                                luckRoll += 5;
+                            if (luckRoll > 30)
                             {
                                 int roll = UnityEngine.Random.Range(1, 20);
+                                if (caster)
+                                    roll += 5;
                                 if (roll < 17)
                                 {
                                     index = 552;
@@ -240,9 +246,11 @@ namespace SkillBooks
                                     index = 554;
                                 }
                             }
-                            else if (luckRoll > 17)
+                            else if (luckRoll > 28)
                             {
                                 int roll = UnityEngine.Random.Range(1, 20);
+                                if (caster)
+                                    roll += 5;
                                 if (roll < 17)
                                 {
                                     index = 551;
@@ -281,26 +289,56 @@ namespace SkillBooks
 
         public static void AddSkillBooks_OnLootSpawned(object sender, ContainerLootSpawnedEventArgs e)
         {
+
             DaggerfallInterior interior = GameManager.Instance.PlayerEnterExit.Interior;
             if (interior != null &&
                 e.ContainerType == LootContainerTypes.ShopShelves &&
                 interior.BuildingData.BuildingType == DFLocation.BuildingTypes.Bookseller)
             {
-                int numBooks = UnityEngine.Random.Range(0, interior.BuildingData.Quality/5);
+                int quality = 2;
+                switch (interior.BuildingData.Quality)
+                {
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                        quality = 3;
+                        break;
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                        quality = 4;
+                        break;
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                        quality = 5;
+                        break;
+                    case 17:
+                    case 18:
+                    case 19:
+                    case 20:
+                        quality = 6;
+                        break;
+                }
 
+                int numBooks = UnityEngine.Random.Range(0, quality);
                 while (numBooks > 0)
                 {
-                    int roll = UnityEngine.Random.Range(1, 20);
+                    int roll = UnityEngine.Random.Range(1, 101);
                     int index = 551;
-                    if (roll > 19)
+
+                    if (roll > 95)
                     {
                         index = 554; //tablet
                     }
-                    else if (roll > 15)
+                    else if (roll > 85)
                     {
-                        index = 553; //mBook
+                        index = 553; //mTomes
                     }
-                    else if (roll > 10)
+                    else if (roll > 60)
                     {
                         index = 552; //advBook
                     }

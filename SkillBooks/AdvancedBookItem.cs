@@ -51,6 +51,7 @@ namespace SkillBooks
             else
                 message = Random.Range(0, 13);
             messageSet = -1;
+
             if (Random.Range(1, 3) > 1)
                 dyeColor = DyeColors.Red;
         }

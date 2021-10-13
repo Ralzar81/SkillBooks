@@ -14,8 +14,6 @@ using System.Collections.Generic;
 
 namespace SkillBooks
 {
-
-
     public class BasicSkillBook : DaggerfallUnityItem
     {
         static PlayerEntity playerEntity = GameManager.Instance.PlayerEntity;
@@ -61,6 +59,10 @@ namespace SkillBooks
             get { return GetSkillBookName(message); }
         }
 
+        public override string LongName
+        {
+            get { return GetSkillBookName(message); }
+        }
 
         public override bool UseItem(ItemCollection collection)
         {
