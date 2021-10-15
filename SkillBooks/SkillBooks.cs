@@ -105,6 +105,7 @@ namespace SkillBooks
                 if (book.currentCondition <= 0)
                 {
                     playerEntity.Items.RemoveItem(book);
+                    playerEntity.WagonItems.RemoveItem(book);
                     if (book.TemplateIndex == 554)
                         DaggerfallUI.MessageBox("The tablet cracks, and the magic energies within fades away.");
                     else if (book.TemplateIndex == 553)
