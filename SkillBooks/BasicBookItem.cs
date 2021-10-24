@@ -111,7 +111,10 @@ namespace SkillBooks
 
         private static string GetSkillBookName(int message)
         {
-            return bookTitlesList[message];
+            if (message == 13)
+                return "Tomes Of Magic";
+            else
+                return bookTitlesList[message];
         }
 
         private static void SkillBookPopup_OnButtonClick(DaggerfallMessageBox sender, DaggerfallMessageBox.MessageBoxButtons messageBoxButton)

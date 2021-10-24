@@ -59,6 +59,7 @@ namespace SkillBooks
 
         public static void ReadingBook(DaggerfallUnityItem book)
         {
+
             List<DFCareer.Skills> skillsToTrain = GetSkillList(book);
             List<string> skillsTrained = new List<string>();
             DaggerfallDateTime now = DaggerfallUnity.Instance.WorldTime.Now;
@@ -104,14 +105,17 @@ namespace SkillBooks
                 book.currentCondition -= 1;
                 if (book.currentCondition <= 0)
                 {
-                    playerEntity.Items.RemoveItem(book);
-                    playerEntity.WagonItems.RemoveItem(book);
+                    if (playerEntity.Items.Contains(book))
+                        playerEntity.Items.RemoveItem(book);
+                    else
+                        playerEntity.WagonItems.RemoveItem(book);
                     if (book.TemplateIndex == 554)
                         DaggerfallUI.MessageBox("The tablet cracks, and the magic energies within fades away.");
                     else if (book.TemplateIndex == 553)
                         DaggerfallUI.MessageBox("The tomes have become so worn you are no longer able to decipher them.");
                     else
                         DaggerfallUI.MessageBox("The book is so old and worn it has become unreadable.");
+                    DaggerfallUI.Instance.InventoryWindow.Refresh();
                 }
                 else if (skillsCount == 3)
                     DaggerfallUI.MessageBox("You learn more about the skills " + skillsTrained[0] + ", " + skillsTrained[1] + " and " + skillsTrained[2] + ".");
@@ -121,6 +125,25 @@ namespace SkillBooks
                     DaggerfallUI.MessageBox("You learn more about the skill " + skillsTrained[0] + ".");
                 else
                     DaggerfallUI.MessageBox("You spend an hour reading, but learn nothing new.");
+            }
+
+            //Code to handle bugged saved Tomes of Magic.
+            if (book.currentCondition > 0 && book.TemplateIndex == 553 && book.GetType() == typeof(BasicSkillBook))
+            {
+                DaggerfallUnityItem magicBook = ItemBuilder.CreateItem(ItemGroups.UselessItems2, 553);
+                magicBook.currentCondition = book.currentCondition;
+
+                if (playerEntity.Items.Contains(book))
+                {
+                    playerEntity.Items.RemoveItem(book);
+                    playerEntity.Items.AddItem(magicBook);
+                }
+                else
+                {
+                    playerEntity.WagonItems.RemoveItem(book);
+                    playerEntity.WagonItems.AddItem(magicBook);
+                }
+                DaggerfallUI.Instance.InventoryWindow.Refresh();
             }
         }
 

@@ -27,9 +27,15 @@ namespace SkillBooks
         public BasicMagicBook() : base(ItemGroups.UselessItems2, templateIndex)
         {
             message = 13;
+            shortName = NAME;
         }
 
         public override string ItemName
+        {
+            get { return NAME; }
+        }
+
+        public override string LongName
         {
             get { return NAME; }
         }
@@ -80,7 +86,7 @@ namespace SkillBooks
         public override ItemData_v1 GetSaveData()
         {
             ItemData_v1 data = base.GetSaveData();
-            data.className = typeof(BasicSkillBook).ToString();
+            data.className = typeof(BasicMagicBook).ToString();
             return data;
         }
 

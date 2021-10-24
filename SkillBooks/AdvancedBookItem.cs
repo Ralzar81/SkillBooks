@@ -54,9 +54,16 @@ namespace SkillBooks
 
             if (Random.Range(1, 3) > 1)
                 dyeColor = DyeColors.Red;
+
+            shortName = GetSkillBookName(message);
         }
 
         public override string ItemName
+        {
+            get { return GetSkillBookName(message); }
+        }
+
+        public override string LongName
         {
             get { return GetSkillBookName(message); }
         }

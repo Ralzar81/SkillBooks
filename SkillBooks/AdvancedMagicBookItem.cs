@@ -27,9 +27,16 @@ namespace SkillBooks
         public AdvancedMagicBook() : base(ItemGroups.UselessItems2, templateIndex)
         {
             message = 13;
+
+            shortName = NAME;
         }
 
         public override string ItemName
+        {
+            get { return NAME; }
+        }
+
+        public override string LongName
         {
             get { return NAME; }
         }
